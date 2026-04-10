@@ -1,0 +1,6 @@
+games.json
+pycache/
+*.pyc
+build/
+dist/
+*.exe
