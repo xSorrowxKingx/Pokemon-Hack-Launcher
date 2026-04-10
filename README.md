@@ -5,7 +5,9 @@
 <h1 align="center">Pokémon Hack Launcher</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/github/v/release/Barath0n/Pokemon-Hack-Launcher">
+  <a href="https://github.com/Barath0n/Pokemon-Hack-Launcher/releases/latest">
+    <img src="https://img.shields.io/github/v/release/Barath0n/Pokemon-Hack-Launcher">
+  </a>
   <img src="https://img.shields.io/github/downloads/Barath0n/Pokemon-Hack-Launcher/total">
   <img src="https://img.shields.io/github/license/Barath0n/Pokemon-Hack-Launcher">
   <img src="https://img.shields.io/badge/python-3.x-blue">
