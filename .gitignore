@@ -37,3 +37,6 @@ cache/icons/
 # Local backups / dev leftovers
 dev/
 *_backup_*.py
+
+# Executable
+*.exe
