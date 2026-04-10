@@ -30,14 +30,11 @@ Planned features and improvements for future versions of the launcher:
 Already achieved
 
 - [ ] Improved visual design (background and UI animations)
-- [X] Game icons displayed next to each hack
+- [ ] Game icons displayed next to each hack
 - [ ] Optional banner/header image for selected games
 - [ ] Category system for organizing hacks
 - [ ] Favorites system
 - [ ] Recently played list
 - [ ] Keyboard shortcut (Enter to launch game)
 - [ ] Faster startup time
-- [X] Windows `.exe` release
-- [X] Extra Themes (for example Lavender Town Theme, Cinnabar Theme, Distortion (Giratina Theme), Rocket (Team Rocket Theme), Ultra (Ultra Sun / Moon Theme) + Fan-Hack-Themes -> Prism, Infinite Fusion, Radical Red
-- [ ] Portable Mode
-- [ ] Impprove Auto-Icon Detection
+- [ ] Windows `.exe` release

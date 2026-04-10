@@ -53,5 +53,126 @@
     "subtle_text": "#b1d2b8",
     "accent": "#78c850",
     "border": "#2c5c39"
+  },
+  "electrickyellow": {
+	"label": "Electric Yellow",
+	"bg": "#1f1b05",
+	"header": "#2b2406",
+	"card": "#3a3008",
+	"card_hover": "#4a3d0a",
+	"text": "#fff8d6",
+	"subtle_text": "#e6d98a",
+	"accent": "#ffd400",
+	"border": "#8f7612"
+  },
+  "emerald": {
+	"label": "Emerald",
+	"bg": "#0b1f1b",
+	"header": "#145c4a",
+	"card": "#1b3a33",
+	"card_hover": "#24554a",
+	"text": "#e8fff8",
+	"subtle_text": "#9ed6c5",
+	"accent": "#2ee6a3",
+	"border": "#2b7a68"
+  },
+  "ultra": {
+	"label": "Ultra",
+	"bg": "#120f24",
+	"header": "#1b1633",
+	"card": "#241e45",
+	"card_hover": "#31285d",
+	"text": "#f7f3ff",
+	"subtle_text": "#c0b4e0",
+	"accent": "#ffd166",
+	"border": "#62528a"
+  },  
+  "lavendertown": {
+	"label": "Lavender Town",
+	"bg": "#1b1624",
+	"header": "#292036",
+	"card": "#342945",
+	"card_hover": "#43345a",
+	"text": "#f8f0ff",
+	"subtle_text": "#c4afd8",
+	"accent": "#c38cff",
+	"border": "#6d5a87"
+  },
+  "cinnabar": {
+	"label": "Cinnabar",
+	"bg": "#15100d",
+	"header": "#221713",
+	"card": "#2f211c",
+	"card_hover": "#3b2a23",
+	"text": "#fff2ea",
+	"subtle_text": "#c9a99b",
+	"accent": "#ff9a3c",
+	"border": "#6b4a35"
+  },
+  "distortion": {
+	"label": "Distortion",
+	"bg": "#090b14",
+	"header": "#101525",
+	"card": "#171d31",
+	"card_hover": "#212944",
+	"text": "#eef1ff",
+	"subtle_text": "#99a3c8",
+	"accent": "#6a5cff",
+	"border": "#3f4674"
+  },
+  "teamrocket": {
+	"label": "Team Rocket",
+	"bg": "#0f0f10",
+	"header": "#1a1a1d",
+	"card": "#232327",
+	"card_hover": "#2f2f34",
+	"text": "#fff5f5",
+	"subtle_text": "#c3a8a8",
+	"accent": "#ff3045",
+	"border": "#5a2a31"
+  },
+  "plasma": {
+	"label": "Team Plasma",
+	"bg": "#0e1114",
+	"header": "#1a1f24",
+	"card": "#1f262d",
+	"card_hover": "#2a323b",
+	"text": "#e7f9ff",
+	"subtle_text": "#9bb6c2",
+	"accent": "#2fd3ff",
+	"border": "#3b4b57"
+  },
+  "prism": {
+	"label": "Prism",
+	"bg": "#14111a",
+	"header": "#221a2b",
+	"card": "#2e2340",
+	"card_hover": "#3b2d52",
+	"text": "#fff3ff",
+	"subtle_text": "#d2b7e6",
+	"accent": "#c86bff",
+	"border": "#6e4b8f"
+  },
+  "infinitefusion": {
+	"label": "Infinite Fusion",
+	"bg": "#101226",
+	"header": "#171b36",
+	"card": "#20274a",
+	"card_hover": "#2a3361",
+	"text": "#f1f4ff",
+	"subtle_text": "#a9b2d6",
+	"accent": "#ff66cc",
+	"border": "#4b5ea3"
+  },
+  "radicalred": {
+	"label": "Radical Red",
+	"bg": "#14070a",
+	"header": "#210a10",
+	"card": "#300f17",
+	"card_hover": "#431420",
+	"text": "#fff0f3",
+	"subtle_text": "#d8a2ac",
+	"accent": "#ff2b4f",
+	"border": "#7c2035"
   }
 }

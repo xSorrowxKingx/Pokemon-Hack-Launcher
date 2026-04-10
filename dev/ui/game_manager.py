@@ -191,7 +191,7 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
             game_listbox.see(selected_index["value"])
 
         if callable(on_games_changed):
-            manager.after(100, on_games_changed)
+            on_games_changed()
 
         messagebox.showinfo("Saved", "Game entry saved successfully.", parent=manager)
 
@@ -224,7 +224,7 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
         refresh_listbox()
 
         if callable(on_games_changed):
-            manager.after(100, on_games_changed)
+            on_games_changed()
 
     # -----------------------------
     # Header

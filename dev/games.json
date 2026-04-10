@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Pokemon Infinite Fusion",
+        "path": "E:\\Games\\InfiniteFusion\\InfiniteFusion.exe",
+        "description": "A fan game focused on fusing Pokémon into thousands of possible combinations."
+    },
+    {
+        "name": "Pokemon Prisme",
+        "path": "E:\\Games\\Pokemon Prisme\\Pokemon Prisme.exe",
+        "description": "A classic-style ROM hack with its own region, story and many custom features."
+    },
+    {
+        "name": "Pokemon This Gym of Mine",
+        "path": "E:\\Games\\Pokemon This Gym of Mine 4.2.3\\Game.exe",
+        "description": "A unique fangame where you run your own gym instead of following the usual journey."
+    },
+    {
+        "name": "Pokemon PokéPath TD",
+        "path": "C:\\Users\\Flori\\AppData\\Local\\Programs\\pokePathTD_Electron\\PokéPath TD.exe",
+        "description": ""
+    },
+    {
+        "name": "Pokemon Echo",
+        "path": "E:\\Games\\PokemonEchoLauncher.exe",
+        "description": ""
+    }
+]

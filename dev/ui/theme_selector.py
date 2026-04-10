@@ -1,11 +1,22 @@
+# ui/theme_selector.py
+
 import tkinter as tk
 
 from core.paths import ICON_FILE
 from core.theme_manager import get_theme, get_active_theme_name, set_active_theme
 
 
-def update_theme_preview(preview_widgets: dict, theme_data: dict, theme_name: str):
+def update_theme_preview(
+    preview_widgets: dict,
+    theme_data: dict,
+    theme_name: str
+):
+    """
+    Update the preview area inside the theme selector window.
 
+    The preview is purely visual and does not save/apply anything by itself.
+    It only updates the example widgets so the user can see how a theme looks.
+    """
     preview_container = preview_widgets["preview_container"]
     preview_header = preview_widgets["preview_header"]
     preview_title = preview_widgets["preview_title"]
@@ -15,10 +26,8 @@ def update_theme_preview(preview_widgets: dict, theme_data: dict, theme_name: st
     preview_card_text = preview_widgets["preview_card_text"]
     preview_action_button = preview_widgets["preview_action_button"]
     selected_theme_label = preview_widgets["selected_theme_label"]
-    preview_hint = preview_widgets["preview_hint"]
 
     preview_container.configure(bg=theme_data["bg"])
-
     preview_header.configure(bg=theme_data["header"])
     preview_title.configure(bg=theme_data["header"], fg=theme_data["text"])
     preview_subtitle.configure(bg=theme_data["header"], fg=theme_data["subtle_text"])
@@ -27,7 +36,6 @@ def update_theme_preview(preview_widgets: dict, theme_data: dict, theme_name: st
         bg=theme_data["card"],
         highlightbackground=theme_data["border"]
     )
-
     preview_card_title.configure(bg=theme_data["card"], fg=theme_data["text"])
     preview_card_text.configure(bg=theme_data["card"], fg=theme_data["subtle_text"])
 
@@ -44,14 +52,26 @@ def update_theme_preview(preview_widgets: dict, theme_data: dict, theme_name: st
         text=f"Preview: {theme_data.get('label', theme_name)}"
     )
 
-    preview_hint.configure(
-        bg=theme_data["bg"],
-        fg=theme_data["subtle_text"]
-    )
 
+def open_theme_selector(
+    root: tk.Tk,
+    themes: dict,
+    on_theme_changed=None
+):
+    """
+    Open the theme selector window.
 
-def open_theme_selector(root: tk.Tk, themes: dict, on_theme_changed=None):
+    Parameters:
+    - root: the main launcher root window
+    - themes: all valid themes from theme_manager/storage
+    - on_theme_changed: optional callback that will later allow the launcher
+      to update itself live after a theme change
 
+    Current behavior in this version:
+    - shows a preview area
+    - saves the chosen theme via set_active_theme(...)
+    - can optionally notify the launcher through on_theme_changed(...)
+    """
     current_theme_name = get_active_theme_name()
     current_theme = get_theme(current_theme_name)
 
@@ -65,21 +85,20 @@ def open_theme_selector(root: tk.Tk, themes: dict, on_theme_changed=None):
     except Exception:
         pass
 
-    width = 760
-    height = 430
+    window_width = 760
+    window_height = 430
 
     selector.update_idletasks()
 
     root_x = root.winfo_x()
     root_y = root.winfo_y()
-    root_w = root.winfo_width()
-    root_h = root.winfo_height()
+    root_width = root.winfo_width()
+    root_height = root.winfo_height()
 
-    pos_x = root_x + (root_w // 2) - (width // 2)
-    pos_y = root_y + (root_h // 2) - (height // 2)
+    pos_x = root_x + (root_width // 2) - (window_width // 2)
+    pos_y = root_y + (root_height // 2) - (window_height // 2)
 
-    selector.geometry(f"{width}x{height}+{pos_x}+{pos_y}")
-
+    selector.geometry(f"{window_width}x{window_height}+{pos_x}+{pos_y}")
     selector.transient(root)
     selector.grab_set()
 
@@ -118,175 +137,69 @@ def open_theme_selector(root: tk.Tk, themes: dict, on_theme_changed=None):
     )
     right_panel.pack(side="right", fill="both", expand=True, padx=(10, 18), pady=18)
 
-    # Scrollable theme list
-    left_canvas = tk.Canvas(
+    left_title = tk.Label(
         left_panel,
+        text="Available Themes",
         bg=current_theme["bg"],
-        highlightthickness=0,
-        bd=0,
-        width=200
+        fg=current_theme["text"],
+        font=("Segoe UI", 11, "bold"),
+        anchor="w"
     )
-    left_canvas.pack(side="left", fill="both", expand=True)
+    left_title.pack(anchor="w", pady=(0, 10))
 
-    left_scrollbar = tk.Scrollbar(
-        left_panel,
-        orient="vertical",
-        command=left_canvas.yview
-    )
-    left_scrollbar.pack(side="right", fill="y")
+    selected_theme_name_var = tk.StringVar(value=current_theme_name)
 
-    left_canvas.configure(yscrollcommand=left_scrollbar.set)
+    def handle_theme_selection(theme_name: str):
+        theme_data = get_theme(theme_name)
 
-    left_inner = tk.Frame(left_canvas, bg=current_theme["bg"])
-    canvas_window = left_canvas.create_window((0, 0), window=left_inner, anchor="nw")
+        selected_theme_name_var.set(theme_name)
+        update_theme_preview(preview_widgets, theme_data, theme_name)
 
-    left_inner.bind(
-        "<Configure>",
-        lambda e: left_canvas.configure(scrollregion=left_canvas.bbox("all"))
-    )
+        save_success = set_active_theme(theme_name)
 
-    left_canvas.bind(
-        "<Configure>",
-        lambda e: left_canvas.itemconfigure(canvas_window, width=e.width)
-    )
+        if save_success and callable(on_theme_changed):
+            on_theme_changed(theme_name, theme_data)
 
-    selected_theme_var = tk.StringVar(value=current_theme_name)
-
-    radio_buttons = []
-
-    def apply_selector_theme(theme):
-
-        selector.configure(bg=theme["header"])
-
-        header_frame.configure(bg=theme["header"])
-        title_label.configure(bg=theme["header"], fg=theme["text"])
-        subtitle_label.configure(bg=theme["header"], fg=theme["subtle_text"])
-
-        content_frame.configure(bg=theme["bg"])
-        left_panel.configure(bg=theme["bg"])
-        left_canvas.configure(bg=theme["bg"])
-        left_inner.configure(bg=theme["bg"])
-
-        right_panel.configure(
-            bg=theme["bg"],
-            highlightbackground=theme["border"]
-        )
-
-        for rb in radio_buttons:
-            rb.configure(
-                bg=theme["bg"],
-                fg=theme["text"],
-                selectcolor=theme["card"],
-                activebackground=theme["bg"],
-                activeforeground=theme["text"]
-            )
-
-        close_button.configure(
-            bg=theme["card"],
-            fg=theme["text"],
-            activebackground=theme["card_hover"],
-            activeforeground=theme["text"],
-            highlightbackground=theme["border"]
-        )
-
-    def handle_theme_selection(theme_name):
-
-        theme = get_theme(theme_name)
-
-        selected_theme_var.set(theme_name)
-
-        apply_selector_theme(theme)
-        update_theme_preview(preview_widgets, theme, theme_name)
-
-        if set_active_theme(theme_name) and callable(on_theme_changed):
-            on_theme_changed(theme_name, theme)
-
-    # Theme groups
-    theme_groups = {
-        "Core": ["light", "dark", "modern"],
-        "Pokémon Editions": ["firered", "leafgreen", "electrickyellow", "emerald", "ultra"],
-        "Locations / Rivals": ["lavendertown", "cinnabar", "distortion", "teamrocket", "plasma"],
-        "Fan Hacks": ["prism", "infinitefusion", "radicalred"]
-    }
-
-    for group_name, theme_list in theme_groups.items():
-
-        label = tk.Label(
-            left_inner,
-            text=group_name,
+    for theme_name, theme_data in themes.items():
+        radio_button = tk.Radiobutton(
+            left_panel,
+            text=theme_data.get("label", theme_name),
+            variable=selected_theme_name_var,
+            value=theme_name,
+            command=lambda selected_name=theme_name: handle_theme_selection(selected_name),
             bg=current_theme["bg"],
-            fg=current_theme["subtle_text"],
-            font=("Segoe UI", 9, "bold")
+            fg=current_theme["text"],
+            selectcolor=current_theme["card"],
+            activebackground=current_theme["bg"],
+            activeforeground=current_theme["text"],
+            anchor="w",
+            width=22,
+            indicatoron=True,
+            font=("Segoe UI", 10),
+            cursor="hand2"
         )
-        label.pack(anchor="w", pady=(12,4))
+        radio_button.pack(anchor="w", pady=4)
 
-        for name in theme_list:
-
-            if name not in themes:
-                continue
-
-            theme_data = themes[name]
-
-            row = tk.Frame(left_inner, bg=current_theme["bg"])
-            row.pack(fill="x", pady=2)
-
-            dot = tk.Canvas(
-                row,
-                width=10,
-                height=10,
-                highlightthickness=0,
-                bg=current_theme["bg"]
+        radio_button.bind(
+            "<Enter>",
+            lambda event, preview_name=theme_name: update_theme_preview(
+                preview_widgets,
+                get_theme(preview_name),
+                preview_name
             )
+        )
 
-            dot.create_oval(
-                0,0,10,10,
-                fill=theme_data["accent"],
-                outline=""
+        radio_button.bind(
+            "<Leave>",
+            lambda event: update_theme_preview(
+                preview_widgets,
+                get_theme(selected_theme_name_var.get()),
+                selected_theme_name_var.get()
             )
-
-            dot.pack(side="left", padx=(0,6))
-
-            rb = tk.Radiobutton(
-                row,
-                text=theme_data.get("label", name),
-                variable=selected_theme_var,
-                value=name,
-                command=lambda n=name: handle_theme_selection(n),
-                bg=current_theme["bg"],
-                fg=current_theme["text"],
-                selectcolor=current_theme["card"],
-                activebackground=current_theme["bg"],
-                activeforeground=current_theme["text"],
-                anchor="w",
-                width=20,
-                font=("Segoe UI", 10),
-                cursor="hand2",
-                borderwidth=0,
-                highlightthickness=0
-            )
-
-            rb.pack(side="left")
-
-            radio_buttons.append(rb)
-
-            rb.bind(
-                "<Enter>",
-                lambda e, preview=name:
-                update_theme_preview(preview_widgets, get_theme(preview), preview)
-            )
-
-            rb.bind(
-                "<Leave>",
-                lambda e:
-                update_theme_preview(
-                    preview_widgets,
-                    get_theme(selected_theme_var.get()),
-                    selected_theme_var.get()
-                )
-            )
+        )
 
     close_button = tk.Button(
-        left_inner,
+        left_panel,
         text="Close",
         command=selector.destroy,
         bg=current_theme["card"],
@@ -302,9 +215,8 @@ def open_theme_selector(root: tk.Tk, themes: dict, on_theme_changed=None):
         pady=7,
         cursor="hand2"
     )
-    close_button.pack(anchor="w", pady=(18,0))
+    close_button.pack(anchor="w", pady=(18, 0))
 
-    # Preview
     preview_container = tk.Frame(right_panel, bg=current_theme["bg"])
     preview_container.pack(fill="both", expand=True)
 
@@ -313,12 +225,13 @@ def open_theme_selector(root: tk.Tk, themes: dict, on_theme_changed=None):
         text="Preview",
         bg=current_theme["bg"],
         fg=current_theme["text"],
-        font=("Segoe UI", 11, "bold")
+        font=("Segoe UI", 11, "bold"),
+        anchor="w"
     )
-    selected_theme_label.pack(anchor="w", padx=16, pady=(14,12))
+    selected_theme_label.pack(anchor="w", padx=16, pady=(14, 12))
 
     preview_header = tk.Frame(preview_container, bg=current_theme["header"], height=64)
-    preview_header.pack(fill="x", padx=16, pady=(0,14))
+    preview_header.pack(fill="x", padx=16, pady=(0, 14))
     preview_header.pack_propagate(False)
 
     preview_title = tk.Label(
@@ -328,7 +241,7 @@ def open_theme_selector(root: tk.Tk, themes: dict, on_theme_changed=None):
         fg=current_theme["text"],
         font=("Segoe UI", 12, "bold")
     )
-    preview_title.pack(anchor="w", padx=14, pady=(10,0))
+    preview_title.pack(anchor="w", padx=14, pady=(10, 0))
 
     preview_subtitle = tk.Label(
         preview_header,
@@ -337,7 +250,7 @@ def open_theme_selector(root: tk.Tk, themes: dict, on_theme_changed=None):
         fg=current_theme["subtle_text"],
         font=("Segoe UI", 9)
     )
-    preview_subtitle.pack(anchor="w", padx=14, pady=(2,10))
+    preview_subtitle.pack(anchor="w", padx=14, pady=(2, 10))
 
     preview_card = tk.Frame(
         preview_container,
@@ -345,16 +258,17 @@ def open_theme_selector(root: tk.Tk, themes: dict, on_theme_changed=None):
         highlightthickness=1,
         highlightbackground=current_theme["border"]
     )
-    preview_card.pack(fill="x", padx=16, pady=(0,14))
+    preview_card.pack(fill="x", padx=16, pady=(0, 14))
 
     preview_card_title = tk.Label(
         preview_card,
         text="Pokémon Example Hack",
         bg=current_theme["card"],
         fg=current_theme["text"],
-        font=("Segoe UI", 11, "bold")
+        font=("Segoe UI", 11, "bold"),
+        anchor="w"
     )
-    preview_card_title.pack(anchor="w", padx=14, pady=(12,4))
+    preview_card_title.pack(anchor="w", padx=14, pady=(12, 4))
 
     preview_card_text = tk.Label(
         preview_card,
@@ -362,10 +276,11 @@ def open_theme_selector(root: tk.Tk, themes: dict, on_theme_changed=None):
         bg=current_theme["card"],
         fg=current_theme["subtle_text"],
         font=("Segoe UI", 9),
-        wraplength=420,
-        justify="left"
+        anchor="w",
+        justify="left",
+        wraplength=420
     )
-    preview_card_text.pack(anchor="w", padx=14, pady=(0,10))
+    preview_card_text.pack(anchor="w", padx=14, pady=(0, 10))
 
     preview_action_button = tk.Button(
         preview_card,
@@ -375,20 +290,24 @@ def open_theme_selector(root: tk.Tk, themes: dict, on_theme_changed=None):
         activebackground=current_theme["card_hover"],
         activeforeground=current_theme["text"],
         relief="flat",
+        bd=0,
         padx=12,
         pady=6,
-        font=("Segoe UI", 9, "bold")
+        font=("Segoe UI", 9, "bold"),
+        cursor="hand2"
     )
-    preview_action_button.pack(anchor="e", padx=14, pady=(0,12))
+    preview_action_button.pack(anchor="e", padx=14, pady=(0, 12))
 
     preview_hint = tk.Label(
         preview_container,
         text="Hover a theme to preview it. Click a theme to save it.",
         bg=current_theme["bg"],
         fg=current_theme["subtle_text"],
-        font=("Segoe UI", 9)
+        font=("Segoe UI", 9),
+        anchor="w",
+        justify="left"
     )
-    preview_hint.pack(anchor="w", padx=16, pady=(0,16))
+    preview_hint.pack(anchor="w", padx=16, pady=(0, 16))
 
     preview_widgets = {
         "preview_container": preview_container,
@@ -399,11 +318,9 @@ def open_theme_selector(root: tk.Tk, themes: dict, on_theme_changed=None):
         "preview_card_title": preview_card_title,
         "preview_card_text": preview_card_text,
         "preview_action_button": preview_action_button,
-        "selected_theme_label": selected_theme_label,
-        "preview_hint": preview_hint
+        "selected_theme_label": selected_theme_label
     }
 
-    apply_selector_theme(current_theme)
     update_theme_preview(preview_widgets, current_theme, current_theme_name)
 
     selector.focus_set()

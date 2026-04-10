@@ -1,5 +1,5 @@
 # Pokémon Hack Launcher
-**Current Version: v0.6.0**
+**Current Version: v0.5.0**
 
 
 A simple fan-made launcher for managing and starting Pokémon ROM hacks and fan games that are distributed as standalone `.exe` files.

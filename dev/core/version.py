@@ -9,6 +9,6 @@ without duplicating the value in multiple places.
 """
 
 LAUNCHER_NAME = "Pokémon Hack Launcher"
-LAUNCHER_VERSION = "0.6.0"
+LAUNCHER_VERSION = "0.5.0"
 
 FULL_TITLE = f"{LAUNCHER_NAME} v{LAUNCHER_VERSION}"
