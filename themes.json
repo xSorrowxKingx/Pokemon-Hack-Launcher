@@ -1,0 +1,57 @@
+{
+  "light": {
+    "label": "Light",
+    "bg": "#f2f2f2",
+    "header": "#e6e6e6",
+    "card": "#ffffff",
+    "card_hover": "#f7f7f7",
+    "text": "#1a1a1a",
+    "subtle_text": "#555555",
+    "accent": "#4d8dff",
+    "border": "#cccccc"
+  },
+  "dark": {
+    "label": "Dark",
+    "bg": "#1e1e1e",
+    "header": "#1e1e1e",
+    "card": "#2a2a2a",
+    "card_hover": "#3a3a3a",
+    "text": "#f2f2f2",
+    "subtle_text": "#bbbbbb",
+    "accent": "#666666",
+    "border": "#3a3a3a"
+  },
+  "modern": {
+    "label": "Modern",
+    "bg": "#15171c",
+    "header": "#1b1f27",
+    "card": "#20242c",
+    "card_hover": "#2a3040",
+    "text": "#f4f6fb",
+    "subtle_text": "#9aa4b2",
+    "accent": "#ffcb05",
+    "border": "#2e3440"
+  },
+  "firered": {
+    "label": "FireRed",
+    "bg": "#1a0f0b",
+    "header": "#2a140d",
+    "card": "#3a1d12",
+    "card_hover": "#51281a",
+    "text": "#fff3ee",
+    "subtle_text": "#d7b2a5",
+    "accent": "#ff5a36",
+    "border": "#6e2b1b"
+  },
+  "leafgreen": {
+    "label": "LeafGreen",
+    "bg": "#0f1a12",
+    "header": "#132319",
+    "card": "#1b3323",
+    "card_hover": "#25452f",
+    "text": "#eefcf1",
+    "subtle_text": "#b1d2b8",
+    "accent": "#78c850",
+    "border": "#2c5c39"
+  }
+}
