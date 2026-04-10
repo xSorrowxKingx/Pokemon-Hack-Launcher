@@ -4,32 +4,36 @@ __pycache__/
 *.pyo
 *.pyd
 
-# Build / packaging
-build/
-dist/
-*.spec
-
 # Virtual environments
 venv/
 .env/
 .envrc
 
-# Logs
+# Build / packaging
+build/
+dist/
+*.spec
+
+# Logs / temp
 *.log
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# IDE files
-.vscode/
-.idea/
-
-# Temporary files
 *.tmp
 *.bak
 
-# Local launcher data
+# IDE / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local app data
 games.json
 settings.json
 favorites.json
+themes.json
+
+# Cached extracted icons
+cache/icons/
+
+# Local backups / dev leftovers
+dev/
+*_backup_*.py
