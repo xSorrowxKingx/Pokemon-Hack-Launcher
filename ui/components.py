@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 from core.icon_manager import get_or_create_icon_image
+from core.language_manager import get_text
 
 
 def on_enter(widget: tk.Widget, hover_color: str):
@@ -25,30 +26,36 @@ def on_leave(widget: tk.Widget, normal_color: str):
 def bind_hover_effect(widget: tk.Widget, normal_color: str, hover_color: str):
     """
     Attach a simple hover effect to a widget.
-
-    This helper keeps hover logic reusable instead of repeating the same
-    lambda bindings all over the launcher code.
     """
     widget.bind("<Enter>", lambda event: on_enter(widget, hover_color))
     widget.bind("<Leave>", lambda event: on_leave(widget, normal_color))
 
 
-def launch_game(game_path: str):
+def launch_game(game_path: str, translations: dict):
     """
     Launch a game executable if the file exists.
     """
     if not isinstance(game_path, str) or not game_path.strip():
-        messagebox.showerror("Error", "No valid game path was provided.")
+        messagebox.showerror(
+            get_text("dialog.error", translations),
+            get_text("message.no_valid_game_path", translations)
+        )
         return
 
     if not os.path.exists(game_path):
-        messagebox.showerror("Error", f"Game not found:\n{game_path}")
+        messagebox.showerror(
+            get_text("dialog.error", translations),
+            f"{get_text('message.game_not_found', translations)}\n{game_path}"
+        )
         return
 
     try:
         subprocess.Popen(game_path, cwd=os.path.dirname(game_path))
     except Exception as error:
-        messagebox.showerror("Error", f"Could not launch game:\n{error}")
+        messagebox.showerror(
+            get_text("dialog.error", translations),
+            f"{get_text('message.could_not_launch_game', translations)}\n{error}"
+        )
 
 
 def create_action_button(
@@ -90,17 +97,19 @@ def create_game_card(
     game_name: str,
     game_path: str,
     theme: dict,
+    translations: dict,
     description: str = "",
+    is_favorite: bool = False,
+    last_played: str = "",
+    on_toggle_favorite=None,
     launch_command=None
 ) -> tk.Frame:
     """
     Create a reusable themed game card.
 
-    The card contains:
-    - an optional extracted executable icon
-    - a game title
-    - an optional game description
-    - a launch button
+    Optional features:
+    - favorite star in the top-right corner
+    - last played info in the bottom-right area
     """
     card = tk.Frame(
         parent,
@@ -111,10 +120,22 @@ def create_game_card(
         highlightbackground=theme["border"]
     )
 
-    top_row = tk.Frame(card, bg=theme["card"])
-    top_row.pack(fill="x", padx=12, pady=(10, 6))
+    header_row = tk.Frame(card, bg=theme["card"])
+    header_row.pack(fill="x", padx=12, pady=(10, 4))
 
-    # Fixed-size icon container in PIXELS, not text units.
+    top_row = tk.Frame(card, bg=theme["card"])
+    top_row.pack(fill="x", padx=12, pady=(0, 8))
+
+    favorite_button = tk.Label(
+        header_row,
+        text="★" if is_favorite else "☆",
+        bg=theme["card"],
+        fg=theme["accent"] if is_favorite else theme["subtle_text"],
+        font=("Segoe UI", 13, "bold"),
+        cursor="hand2"
+    )
+    favorite_button.pack(side="right")
+
     icon_container = tk.Frame(
         top_row,
         width=48,
@@ -159,7 +180,7 @@ def create_game_card(
     is_fallback_description = not bool(display_description)
 
     if is_fallback_description:
-        display_description = "No description set"
+        display_description = get_text("empty.no_description", translations)
 
     description_label = tk.Label(
         text_container,
@@ -173,11 +194,30 @@ def create_game_card(
     )
     description_label.pack(fill="x")
 
-    effective_launch_command = launch_command or (lambda: launch_game(game_path))
+    footer_row = tk.Frame(card, bg=theme["card"])
+    footer_row.pack(fill="x", padx=12, pady=(10, 14))
+
+    footer_right = tk.Frame(footer_row, bg=theme["card"])
+    footer_right.pack(side="right")
+
+    last_played_text = last_played.strip() if isinstance(last_played, str) else ""
+
+    last_played_label = tk.Label(
+        footer_right,
+        text=last_played_text,
+        bg=theme["card"],
+        fg=theme["subtle_text"],
+        font=("Segoe UI", 8),
+        anchor="e",
+        justify="right"
+    )
+    last_played_label.pack(side="left", padx=(0, 10))
+
+    effective_launch_command = launch_command or (lambda: launch_game(game_path, translations))
 
     launch_button = tk.Button(
-        card,
-        text="Launch",
+        footer_right,
+        text=get_text("buttons.launch", translations),
         command=effective_launch_command,
         bg=theme["accent"],
         fg=theme["text"],
@@ -190,36 +230,68 @@ def create_game_card(
         font=("Segoe UI", 9, "bold"),
         cursor="hand2"
     )
-    launch_button.pack(anchor="e", padx=12, pady=(0, 12))
+    launch_button.pack(side="left")
 
     bind_hover_effect(launch_button, theme["accent"], theme["card_hover"])
 
+    if callable(on_toggle_favorite):
+        favorite_button.bind("<Button-1>", lambda event: on_toggle_favorite())
+
     def apply_card_hover():
         card.configure(bg=theme["card_hover"])
+        header_row.configure(bg=theme["card_hover"])
         top_row.configure(bg=theme["card_hover"])
         icon_container.configure(bg=theme["card_hover"])
         icon_label.configure(bg=theme["card_hover"])
         text_container.configure(bg=theme["card_hover"])
         title_label.configure(bg=theme["card_hover"])
         description_label.configure(bg=theme["card_hover"])
+        footer_row.configure(bg=theme["card_hover"])
+        footer_right.configure(bg=theme["card_hover"])
+        favorite_button.configure(bg=theme["card_hover"])
+        last_played_label.configure(bg=theme["card_hover"])
 
     def remove_card_hover():
         card.configure(bg=theme["card"])
+        header_row.configure(bg=theme["card"])
         top_row.configure(bg=theme["card"])
         icon_container.configure(bg=theme["card"])
         icon_label.configure(bg=theme["card"])
         text_container.configure(bg=theme["card"])
         title_label.configure(bg=theme["card"])
         description_label.configure(bg=theme["card"])
+        footer_row.configure(bg=theme["card"])
+        footer_right.configure(bg=theme["card"])
+        favorite_button.configure(bg=theme["card"])
+        last_played_label.configure(bg=theme["card"])
+
+    def apply_star_hover():
+        if is_favorite:
+            favorite_button.configure(fg=theme["text"])
+        else:
+            favorite_button.configure(fg=theme["accent"])
+
+    def remove_star_hover():
+        if is_favorite:
+            favorite_button.configure(fg=theme["accent"])
+        else:
+            favorite_button.configure(fg=theme["subtle_text"])
+
+    favorite_button.bind("<Enter>", lambda event: apply_star_hover())
+    favorite_button.bind("<Leave>", lambda event: remove_star_hover())
 
     hover_widgets = (
         card,
+        header_row,
         top_row,
         icon_container,
         icon_label,
         text_container,
         title_label,
         description_label,
+        footer_row,
+        footer_right,
+        last_played_label,
     )
 
     for widget in hover_widgets:

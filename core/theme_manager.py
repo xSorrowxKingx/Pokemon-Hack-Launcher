@@ -5,7 +5,6 @@ from core.storage import load_settings, save_settings, load_themes
 
 DEFAULT_THEME_NAME = "modern"
 
-# These keys are the minimum required for a theme to be considered usable.
 REQUIRED_THEME_KEYS = {
     "label",
     "bg",
@@ -22,8 +21,6 @@ REQUIRED_THEME_KEYS = {
 def is_valid_theme(theme_data: dict) -> bool:
     """
     Validate that a theme dictionary contains all required keys.
-
-    This prevents broken or incomplete themes from crashing the UI.
     """
     if not isinstance(theme_data, dict):
         return False
@@ -34,8 +31,6 @@ def is_valid_theme(theme_data: dict) -> bool:
 def get_all_themes() -> dict:
     """
     Return all valid themes from themes.json.
-
-    Invalid theme definitions are ignored automatically.
     """
     themes = load_themes()
 
@@ -51,18 +46,9 @@ def get_all_themes() -> dict:
     return valid_themes
 
 
-def get_theme_names() -> list[str]:
-    """
-    Return a list of all valid theme names.
-    """
-    return list(get_all_themes().keys())
-
-
 def get_saved_theme_name() -> str:
     """
     Read the currently selected theme name from settings.json.
-
-    If no theme is stored, return the default theme name.
     """
     settings = load_settings()
     theme_name = settings.get("theme", DEFAULT_THEME_NAME)
@@ -76,10 +62,6 @@ def get_saved_theme_name() -> str:
 def get_fallback_theme() -> dict:
     """
     Return the default fallback theme.
-
-    If the default theme does not exist in themes.json, return the first valid
-    theme found. If no valid themes exist at all, return a hardcoded emergency
-    fallback so the launcher can still start.
     """
     themes = get_all_themes()
 
@@ -106,9 +88,6 @@ def get_fallback_theme() -> dict:
 def get_active_theme_name() -> str:
     """
     Return the current active theme name if it exists and is valid.
-
-    If the saved theme name is missing or invalid, fall back to the default
-    theme name or the first valid available theme.
     """
     themes = get_all_themes()
     saved_theme_name = get_saved_theme_name()
@@ -128,9 +107,6 @@ def get_active_theme_name() -> str:
 def get_theme(theme_name: str) -> dict:
     """
     Return a specific theme by name.
-
-    If the requested theme does not exist or is invalid, return the fallback
-    theme instead.
     """
     themes = get_all_themes()
 
@@ -144,15 +120,12 @@ def get_active_theme() -> dict:
     """
     Return the currently active theme dictionary.
     """
-    active_theme_name = get_active_theme_name()
-    return get_theme(active_theme_name)
+    return get_theme(get_active_theme_name())
 
 
 def set_active_theme(theme_name: str) -> bool:
     """
     Save the selected theme name to settings.json.
-
-    Returns True if the theme exists and was saved successfully.
     """
     themes = get_all_themes()
 

@@ -5,23 +5,16 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 
 from core.paths import ICON_FILE
+from core.language_manager import get_text
 from core.storage import load_games, save_games
 
 
-def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
+def open_game_manager(root: tk.Tk, theme: dict, translations: dict, on_games_changed=None):
     """
     Open a game management window for adding, editing and deleting launcher entries.
-
-    Features:
-    - show all current games
-    - add a new entry
-    - edit existing entries
-    - browse for an executable
-    - save directly to games.json
-    - optionally notify the launcher after changes
     """
     manager = tk.Toplevel(root)
-    manager.title("Manage Games")
+    manager.title(get_text("manager.title", translations))
     manager.resizable(False, False)
     manager.configure(bg=theme["header"])
 
@@ -50,14 +43,14 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
     games = load_games()
     selected_index = {"value": None}
 
-    # -----------------------------
-    # Helpers
-    # -----------------------------
     def refresh_listbox():
         game_listbox.delete(0, tk.END)
 
         for entry in games:
-            game_listbox.insert(tk.END, entry.get("name", "Unnamed Game"))
+            game_listbox.insert(
+                tk.END,
+                entry.get("name", get_text("manager.game_name", translations))
+            )
 
     def clear_form():
         selected_index["value"] = None
@@ -86,7 +79,7 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
     def browse_executable():
         file_path = filedialog.askopenfilename(
             parent=manager,
-            title="Select Game Executable",
+            title=get_text("message.please_select_game_executable", translations),
             filetypes=[
                 ("Executable files", "*.exe"),
                 ("All files", "*.*")
@@ -106,16 +99,7 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
         clear_form()
         name_entry.focus_set()
 
-
     def normalize_game_path(path: str) -> str:
-        """
-        Normalize a game path so duplicate checks work reliably on Windows.
-
-        This makes comparisons more robust by:
-        - resolving relative path formatting
-        - normalizing slashes
-        - applying Windows case normalization
-        """
         if not isinstance(path, str):
             return ""
 
@@ -132,17 +116,25 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
         description = description_text.get("1.0", tk.END).strip()
 
         if not name:
-            messagebox.showwarning("Missing Name", "Please enter a game name.", parent=manager)
+            messagebox.showwarning(
+                get_text("dialog.missing_name", translations),
+                get_text("message.please_enter_game_name", translations),
+                parent=manager
+            )
             return
 
         if not path:
-            messagebox.showwarning("Missing Path", "Please select a game executable.", parent=manager)
+            messagebox.showwarning(
+                get_text("dialog.missing_path", translations),
+                get_text("message.please_select_game_executable", translations),
+                parent=manager
+            )
             return
 
         if not os.path.exists(path):
             messagebox.showwarning(
-                "Invalid Path",
-                "The selected executable does not exist.",
+                get_text("dialog.invalid_path", translations),
+                get_text("message.selected_executable_missing", translations),
                 parent=manager
             )
             return
@@ -150,15 +142,13 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
         current_index = selected_index["value"]
         normalized_new_path = normalize_game_path(path)
 
-        # Prevent duplicate executable paths, but allow saving the currently
-        # selected entry itself when editing.
         for i, entry in enumerate(games):
             existing_path = normalize_game_path(entry.get("path", ""))
 
             if existing_path == normalized_new_path and i != current_index:
                 messagebox.showwarning(
-                    "Duplicate Entry",
-                    "This executable already exists in the launcher.",
+                    get_text("dialog.duplicate_entry", translations),
+                    get_text("message.executable_already_exists", translations),
                     parent=manager
                 )
                 return
@@ -177,8 +167,8 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
 
         if not save_games(games):
             messagebox.showerror(
-                "Save Error",
-                "Could not save games.json.",
+                get_text("dialog.save_error", translations),
+                get_text("message.could_not_save_games", translations),
                 parent=manager
             )
             return
@@ -193,21 +183,29 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
         if callable(on_games_changed):
             manager.after(100, on_games_changed)
 
-        messagebox.showinfo("Saved", "Game entry saved successfully.", parent=manager)
+        messagebox.showinfo(
+            get_text("dialog.saved", translations),
+            get_text("message.game_entry_saved", translations),
+            parent=manager
+        )
 
     def delete_selected_entry():
         selection = game_listbox.curselection()
 
         if not selection:
-            messagebox.showwarning("No Selection", "Please select a game entry to delete.", parent=manager)
+            messagebox.showwarning(
+                get_text("dialog.no_selection", translations),
+                get_text("message.select_game_to_delete", translations),
+                parent=manager
+            )
             return
 
         index = selection[0]
-        entry_name = games[index].get("name", "this game")
+        entry_name = games[index].get("name", get_text("fallback.this_game", translations))
 
         confirm = messagebox.askyesno(
-            "Delete Entry",
-            f"Do you really want to delete '{entry_name}'?",
+            get_text("dialog.delete_entry", translations),
+            get_text("message.confirm_delete_entry", translations, name=entry_name),
             parent=manager
         )
 
@@ -217,7 +215,11 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
         del games[index]
 
         if not save_games(games):
-            messagebox.showerror("Save Error", "Could not save games.json.", parent=manager)
+            messagebox.showerror(
+                get_text("dialog.save_error", translations),
+                get_text("message.could_not_save_games", translations),
+                parent=manager
+            )
             return
 
         clear_form()
@@ -226,15 +228,12 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
         if callable(on_games_changed):
             manager.after(100, on_games_changed)
 
-    # -----------------------------
-    # Header
-    # -----------------------------
     header_frame = tk.Frame(manager, bg=theme["header"], height=72)
     header_frame.pack(fill="x")
 
     title_label = tk.Label(
         header_frame,
-        text="Manage Games",
+        text=get_text("manager.title", translations),
         bg=theme["header"],
         fg=theme["text"],
         font=("Segoe UI", 15, "bold")
@@ -243,16 +242,13 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
 
     subtitle_label = tk.Label(
         header_frame,
-        text="Add, edit or remove games from your launcher library.",
+        text=get_text("manager.subtitle", translations),
         bg=theme["header"],
         fg=theme["subtle_text"],
         font=("Segoe UI", 9)
     )
     subtitle_label.pack(anchor="w", padx=18, pady=(2, 12))
 
-    # -----------------------------
-    # Main content
-    # -----------------------------
     content_frame = tk.Frame(manager, bg=theme["bg"])
     content_frame.pack(fill="both", expand=True, padx=18, pady=18)
 
@@ -272,12 +268,9 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
     )
     right_panel.pack(side="right", fill="both", expand=True)
 
-    # -----------------------------
-    # Left panel: existing games
-    # -----------------------------
     left_title = tk.Label(
         left_panel,
-        text="Library Entries",
+        text=get_text("manager.library_entries", translations),
         bg=theme["card"],
         fg=theme["text"],
         font=("Segoe UI", 11, "bold")
@@ -305,12 +298,9 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
 
     game_listbox.bind("<<ListboxSelect>>", load_selected_game)
 
-    # -----------------------------
-    # Right panel: form
-    # -----------------------------
     form_title = tk.Label(
         right_panel,
-        text="Game Details",
+        text=get_text("manager.game_details", translations),
         bg=theme["card"],
         fg=theme["text"],
         font=("Segoe UI", 11, "bold")
@@ -322,7 +312,7 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
 
     name_label = tk.Label(
         right_panel,
-        text="Game Name",
+        text=get_text("manager.game_name", translations),
         bg=theme["card"],
         fg=theme["text"],
         font=("Segoe UI", 9, "bold")
@@ -344,7 +334,7 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
 
     path_label = tk.Label(
         right_panel,
-        text="Executable Path",
+        text=get_text("manager.executable_path", translations),
         bg=theme["card"],
         fg=theme["text"],
         font=("Segoe UI", 9, "bold")
@@ -369,7 +359,7 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
 
     browse_button = tk.Button(
         path_row,
-        text="Browse",
+        text=get_text("buttons.browse", translations),
         command=browse_executable,
         bg=theme["accent"],
         fg=theme["text"],
@@ -386,7 +376,7 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
 
     description_label = tk.Label(
         right_panel,
-        text="Description (Optional)",
+        text=get_text("manager.description_optional", translations),
         bg=theme["card"],
         fg=theme["text"],
         font=("Segoe UI", 9, "bold")
@@ -412,7 +402,7 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
 
     add_button = tk.Button(
         action_row,
-        text="New Entry",
+        text=get_text("buttons.new_entry", translations),
         command=add_new_entry,
         bg=theme["card"],
         fg=theme["text"],
@@ -431,7 +421,7 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
 
     save_button = tk.Button(
         action_row,
-        text="Save Entry",
+        text=get_text("buttons.save_entry", translations),
         command=save_current_entry,
         bg=theme["accent"],
         fg=theme["text"],
@@ -448,7 +438,7 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
 
     delete_button = tk.Button(
         action_row,
-        text="Delete Entry",
+        text=get_text("buttons.delete_entry", translations),
         command=delete_selected_entry,
         bg=theme["card"],
         fg=theme["text"],
@@ -467,7 +457,7 @@ def open_game_manager(root: tk.Tk, theme: dict, on_games_changed=None):
 
     close_button = tk.Button(
         action_row,
-        text="Close",
+        text=get_text("buttons.close", translations),
         command=manager.destroy,
         bg=theme["card"],
         fg=theme["text"],

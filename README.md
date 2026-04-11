@@ -5,16 +5,18 @@
 <h1 align="center">Pokémon Hack Launcher</h1>
 
 <p align="center">
-  <a href="https://github.com/Barath0n/Pokemon-Hack-Launcher/releases/latest">
-    <img src="https://img.shields.io/github/v/release/Barath0n/Pokemon-Hack-Launcher">
-  </a>
+  <img src="https://img.shields.io/github/v/release/Barath0n/Pokemon-Hack-Launcher">
   <img src="https://img.shields.io/github/downloads/Barath0n/Pokemon-Hack-Launcher/total">
   <img src="https://img.shields.io/github/license/Barath0n/Pokemon-Hack-Launcher">
   <img src="https://img.shields.io/badge/python-3.x-blue">
 </p>
 
 <p align="center">
-A lightweight fan-made launcher for organizing and launching Pokémon ROM hacks and fangames distributed as standalone Windows executables.
+A simple, clean launcher to organize and start your **Pokémon ROM hacks and fangames**.
+
+The launcher allows players to organize their ROM hacks, quickly launch them, and track favorites or recently played games.
+
+This project is designed to be simple, fast, and fully local.
 </p>
 
 <p align="center">
@@ -29,106 +31,167 @@ https://github.com/Barath0n/Pokemon-Hack-Launcher/releases/latest
 # Screenshots
 
 ### Main Launcher
+![Launcher Screenshot](screenshots/launcher_main.png)
 
-![Launcher](assets/screenshots/main_launcher.png)
+The main launcher shows your ROM hack library with icons, descriptions, and quick launch buttons.
+
+You can:
+
+- Search your games
+- Filter by favorites
+- Filter by recently played
+- Launch games directly
+
+---
 
 ### Manage Games
+![Manage Games Screenshot](screenshots/manage_games.png)
 
-![Game Manager](assets/screenshots/manage_games.png)
+The **Manage Games** window allows you to:
 
-### Theme Selector
+- Add new game entries
+- Edit existing entries
+- Set executable paths
+- Add descriptions
+- Delete entries
 
-![Theme Selector](assets/screenshots/theme_selector.png)
+All changes are automatically saved to your local library.
+
+---
+
+### Options – Themes
+![Themes Screenshot](screenshots/options_themes.png)
+
+Customize the launcher appearance with multiple Pokémon-inspired themes.
+
+Examples include:
+
+- Light
+- Dark
+- Modern
+- FireRed
+- LeafGreen
+- Electric Yellow
+- Emerald
+- Lavender Town
+- Ultra
+
+Themes can be previewed instantly before applying them.
+
+---
+
+### Options – Language
+![Language Screenshot](screenshots/options_language.png)
+
+The launcher supports multiple languages.
+
+Currently supported:
+
+- English
+- Deutsch
+- Español
+- Français
+- Português (Brasil)
+
+Language changes apply instantly.
 
 ---
 
 # Features
 
-- Launch Pokémon fan games and ROM hacks from one launcher
-- Built-in **Game Manager** for adding and managing games
-- **Live search** to quickly find games
-- Automatic **executable icon detection**
-- Clean and simple interface
-- Lightweight and fast
-- **Theme system** with multiple Pokémon-inspired themes
-- Theme preview inside the launcher
-- Description support for each game
+### Game Library
+
+Organize all your Pokémon ROM hacks and fangames in one place.
+
+Each entry supports:
+
+- Game title
+- Description
+- Icon
+- Launch path
+- Favorite status
+- Last played tracking
+
+---
+
+### Favorites System
+
+Mark your favorite hacks using the ⭐ icon.
+
+Use the **Favorites filter** to quickly access them.
+
+---
+
+### Recently Played
+
+The launcher automatically records when a game was last started.
+
+Use the **Recently Played** filter to quickly return to your latest games.
+
+---
+
+### Search
+
+Instantly search your library by:
+
+- Game title
+- Description
+
+Results update in real time.
+
+---
+
+### Game Manager
+
+Easily manage your library using the **Manage Games** window.
+
+You can:
+
+- Create new entries
+- Update existing entries
+- Remove games
+- Automatically save your library
+
+---
+
+### Themes
+
+Customize the look of the launcher with Pokémon-inspired color themes.
+
+Themes can be changed in the **Options menu**.
+
+---
+
+### Multi-Language Support
+
+Switch the launcher language at any time.
+
+Languages are stored in simple translation files and can easily be extended.
 
 ---
 
 # Installation
 
-1. Download the latest version from the **Releases page**
-2. Extract the ZIP archive
-3. Run `PokemonHackLauncher.exe`
+No installation required.
 
-The launcher will automatically create the required configuration files on first start.
+Download the latest release and run:
 
----
-
-# Game Manager
-
-Games can be added directly inside the launcher.
-
-To add a game:
-
-1. Open the launcher
-2. Click **Manage Games**
-3. Click **New Entry**
-4. Select the game `.exe`
-5. Save
-
-The launcher automatically stores the entry in `games.json`.
-
-No manual editing of configuration files is required.
+launcher.exe
 
 ---
 
-# Search
+# Data Storage
 
-The launcher includes a **live search bar**.
+The launcher stores all data locally using JSON files.
 
-You can search by:
+```
+games.json
+settings.json
+themes.json
+```
 
-- Game title
-- Game description
+No internet connection is required.
 
-Results update instantly while typing.
-
----
-
-# Icons
-
-The launcher automatically attempts to extract icons from game `.exe` files.
-
-If an executable does not provide an extractable icon, a fallback controller icon will be displayed.
-
----
-
-# Themes
-
-The launcher includes multiple themes that can be changed directly inside the application.
-
-Examples include:
-
-- FireRed
-- LeafGreen
-- Electric Yellow
-- Lavender Town
-- Team Rocket
-- Infinite Fusion
-- Radical Red
-- and more
-
-To change the theme:
-
-1. Click **Theme**
-2. Preview available themes
-3. Select your preferred style
-
-The launcher updates instantly without restarting.
-
----
 
 # Project Structure
 
@@ -136,13 +199,33 @@ The launcher updates instantly without restarting.
 ```
 core/
 ui/
+translations/
 launcher.py
 games.json
 themes.json
 settings.json
 ```
 
-The project separates **core logic** and **UI components** to keep the codebase easier to maintain and expand.
+---
+
+# Roadmap
+
+Planned future improvements:
+
+- Game sorting options
+- Optional playtime tracking
+- Emulator auto-launch support
+- Optional hack database integration
+- UI polish and animations
+- Additional themes
+
+---
+
+# Contributing
+
+Contributions and suggestions are welcome.
+
+If you find a bug or have a feature idea, feel free to open an issue.
 
 ---
 
@@ -157,5 +240,7 @@ All Pokémon names, assets, and trademarks belong to their respective owners.
 # License
 
 This project is released under the **MIT License**.
+
+See `LICENSE` for details.
 
 Please respect the original creators of the Pokémon fan games you add to the launcher.

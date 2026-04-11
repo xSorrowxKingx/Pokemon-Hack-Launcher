@@ -1,0 +1,80 @@
+{
+  "app.title": "Pokémon Hack Launcher",
+  "header.subtitle": "Le lanceur pour vos ROM hacks et fangames Pokémon",
+
+  "search.label": "Rechercher",
+  
+  "filter.all": "Tous",
+  "filter.favorites": "Favoris",
+  "filter.recent": "Joués récemment",
+  
+  "label.last_played": "Dernière lecture",
+
+  "buttons.launch": "Lancer",
+  "buttons.exit": "Quitter",
+  "buttons.close": "Fermer",
+  "buttons.browse": "Parcourir",
+  "buttons.manage_games": "Gérer les jeux",
+  "buttons.new_entry": "Nouvelle entrée",
+  "buttons.save_entry": "Enregistrer l'entrée",
+  "buttons.delete_entry": "Supprimer l'entrée",
+  "buttons.options": "Options",
+
+  "empty.no_hacks": "Aucun hack trouvé.",
+  "empty.add_entries": "Utilisez 'Gérer les jeux' pour ajouter des entrées.",
+  "empty.no_results": "Aucun hack correspondant trouvé.",
+  "empty.no_description": "Aucune description",
+
+  "fallback.unnamed_hack": "Hack sans nom",
+  "fallback.this_game": "ce jeu",
+
+  "theme.title": "Thème",
+  "theme.subtitle": "Choisissez un thème et prévisualisez l'apparence du lanceur.",
+  "theme.preview": "Aperçu",
+  "theme.preview_hint": "Survolez un thème pour l'aperçu. Cliquez pour l'appliquer.",
+  "theme.preview_header": "Aperçu de l'en-tête du lanceur",
+  "theme.preview_card_title": "Exemple de hack Pokémon",
+  "theme.preview_card_text": "Une aventure Pokémon personnalisée avec une description optionnelle.",
+
+  "theme.group.core": "Base",
+  "theme.group.editions": "Éditions Pokémon",
+  "theme.group.locations": "Lieux / Rivaux",
+  "theme.group.fan_hacks": "Fan Hacks",
+
+  "manager.title": "Gérer les jeux",
+  "manager.subtitle": "Ajoutez, modifiez ou supprimez des jeux de votre bibliothèque.",
+  "manager.library_entries": "Entrées de la bibliothèque",
+  "manager.game_details": "Détails du jeu",
+  "manager.game_name": "Nom du jeu",
+  "manager.executable_path": "Chemin du fichier",
+  "manager.description_optional": "Description (Optionnelle)",
+
+  "options.title": "Options",
+  "options.subtitle": "Ajustez les paramètres du lanceur et personnalisez l'interface.",
+  "options.section.theme": "Thème",
+  "options.section.language": "Langue",
+  "options.language.subtitle": "Choisissez la langue du lanceur.",
+
+  "dialog.error": "Erreur",
+  "dialog.saved": "Enregistré",
+  "dialog.save_error": "Erreur d'enregistrement",
+  "dialog.missing_name": "Nom manquant",
+  "dialog.missing_path": "Chemin manquant",
+  "dialog.invalid_path": "Chemin invalide",
+  "dialog.duplicate_entry": "Entrée en double",
+  "dialog.no_selection": "Aucune sélection",
+  "dialog.delete_entry": "Supprimer l'entrée",
+
+  "message.game_not_found": "Jeu introuvable :",
+  "message.no_valid_game_path": "Aucun chemin valide fourni.",
+  "message.could_not_launch_game": "Impossible de lancer le jeu :",
+  "message.please_enter_game_name": "Veuillez entrer un nom de jeu.",
+  "message.please_select_game_executable": "Veuillez sélectionner un fichier de jeu.",
+  "message.selected_executable_missing": "Le fichier sélectionné n'existe pas.",
+  "message.executable_already_exists": "Ce fichier existe déjà dans le lanceur.",
+  "message.could_not_save_games": "Impossible d'enregistrer games.json.",
+  "message.game_entry_saved": "Entrée du jeu enregistrée avec succès.",
+  "message.select_game_to_delete": "Veuillez sélectionner une entrée à supprimer.",
+  "message.confirm_delete_entry": "Voulez-vous vraiment supprimer '{name}' ?",
+  "message.no_valid_themes": "Aucun thème valide trouvé dans themes.json."
+}

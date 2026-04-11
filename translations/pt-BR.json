@@ -1,0 +1,80 @@
+{
+  "app.title": "Pokémon Hack Launcher",
+  "header.subtitle": "O launcher para seus ROM hacks e fangames de Pokémon",
+
+  "search.label": "Pesquisar",
+  
+  "filter.all": "Todos",
+  "filter.favorites": "Favoritos",
+  "filter.recent": "Jogados recentemente",
+  
+  "label.last_played": "Última vez jogado",
+
+  "buttons.launch": "Iniciar",
+  "buttons.exit": "Sair",
+  "buttons.close": "Fechar",
+  "buttons.browse": "Procurar",
+  "buttons.manage_games": "Gerenciar jogos",
+  "buttons.new_entry": "Nova entrada",
+  "buttons.save_entry": "Salvar entrada",
+  "buttons.delete_entry": "Excluir entrada",
+  "buttons.options": "Opções",
+
+  "empty.no_hacks": "Nenhum hack encontrado.",
+  "empty.add_entries": "Use 'Gerenciar jogos' para adicionar entradas.",
+  "empty.no_results": "Nenhum hack correspondente encontrado.",
+  "empty.no_description": "Sem descrição",
+
+  "fallback.unnamed_hack": "Hack sem nome",
+  "fallback.this_game": "este jogo",
+
+  "theme.title": "Tema",
+  "theme.subtitle": "Escolha um tema e visualize como o launcher ficará.",
+  "theme.preview": "Pré-visualização",
+  "theme.preview_hint": "Passe o mouse sobre um tema para visualizar. Clique para aplicar.",
+  "theme.preview_header": "Pré-visualização do cabeçalho do launcher",
+  "theme.preview_card_title": "Exemplo de hack Pokémon",
+  "theme.preview_card_text": "Uma aventura personalizada de Pokémon com descrição opcional.",
+
+  "theme.group.core": "Base",
+  "theme.group.editions": "Edições Pokémon",
+  "theme.group.locations": "Locais / Rivais",
+  "theme.group.fan_hacks": "Fan Hacks",
+
+  "manager.title": "Gerenciar jogos",
+  "manager.subtitle": "Adicione, edite ou remova jogos da sua biblioteca.",
+  "manager.library_entries": "Entradas da biblioteca",
+  "manager.game_details": "Detalhes do jogo",
+  "manager.game_name": "Nome do jogo",
+  "manager.executable_path": "Caminho do arquivo",
+  "manager.description_optional": "Descrição (Opcional)",
+
+  "options.title": "Opções",
+  "options.subtitle": "Ajuste as configurações do launcher e personalize a interface.",
+  "options.section.theme": "Tema",
+  "options.section.language": "Idioma",
+  "options.language.subtitle": "Escolha o idioma do launcher.",
+
+  "dialog.error": "Erro",
+  "dialog.saved": "Salvo",
+  "dialog.save_error": "Erro ao salvar",
+  "dialog.missing_name": "Nome ausente",
+  "dialog.missing_path": "Caminho ausente",
+  "dialog.invalid_path": "Caminho inválido",
+  "dialog.duplicate_entry": "Entrada duplicada",
+  "dialog.no_selection": "Nenhuma seleção",
+  "dialog.delete_entry": "Excluir entrada",
+
+  "message.game_not_found": "Jogo não encontrado:",
+  "message.no_valid_game_path": "Nenhum caminho válido foi fornecido.",
+  "message.could_not_launch_game": "Não foi possível iniciar o jogo:",
+  "message.please_enter_game_name": "Por favor, insira um nome para o jogo.",
+  "message.please_select_game_executable": "Por favor, selecione um arquivo de jogo.",
+  "message.selected_executable_missing": "O arquivo selecionado não existe.",
+  "message.executable_already_exists": "Este arquivo já existe no launcher.",
+  "message.could_not_save_games": "Não foi possível salvar games.json.",
+  "message.game_entry_saved": "Entrada do jogo salva com sucesso.",
+  "message.select_game_to_delete": "Selecione uma entrada para excluir.",
+  "message.confirm_delete_entry": "Você realmente deseja excluir '{name}'?",
+  "message.no_valid_themes": "Nenhum tema válido foi encontrado em themes.json."
+}

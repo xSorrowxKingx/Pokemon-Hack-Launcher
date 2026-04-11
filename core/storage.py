@@ -8,7 +8,8 @@ from core.paths import GAMES_FILE, SETTINGS_FILE, THEMES_FILE
 
 
 DEFAULT_SETTINGS = {
-    "theme": "modern"
+    "theme": "modern",
+    "language": "en"
 }
 
 
@@ -53,11 +54,14 @@ def load_games() -> list[dict]:
         {
             "name": "Game Name",
             "path": "C:/Path/To/Game.exe",
-            "description": "Optional short description"
+            "description": "Optional short description",
+            "favorite": false,
+            "last_played": ""
         }
     ]
 
-    If the file is missing or invalid, return an empty list.
+    Missing optional values are normalized automatically so older games.json
+    files remain compatible with newer launcher versions.
     """
     data = load_json_file(GAMES_FILE, [])
 
@@ -73,6 +77,8 @@ def load_games() -> list[dict]:
         name = entry.get("name")
         path = entry.get("path")
         description = entry.get("description", "")
+        favorite = entry.get("favorite", False)
+        last_played = entry.get("last_played", "")
 
         if not isinstance(name, str) or not isinstance(path, str):
             continue
@@ -80,10 +86,18 @@ def load_games() -> list[dict]:
         if not isinstance(description, str):
             description = ""
 
+        if not isinstance(favorite, bool):
+            favorite = False
+
+        if not isinstance(last_played, str):
+            last_played = ""
+
         valid_games.append({
             "name": name,
             "path": path,
-            "description": description
+            "description": description,
+            "favorite": favorite,
+            "last_played": last_played
         })
 
     return valid_games
@@ -108,6 +122,8 @@ def save_games(games: list[dict]) -> bool:
         name = entry.get("name", "")
         path = entry.get("path", "")
         description = entry.get("description", "")
+        favorite = entry.get("favorite", False)
+        last_played = entry.get("last_played", "")
 
         if not isinstance(name, str) or not name.strip():
             continue
@@ -118,10 +134,18 @@ def save_games(games: list[dict]) -> bool:
         if not isinstance(description, str):
             description = ""
 
+        if not isinstance(favorite, bool):
+            favorite = False
+
+        if not isinstance(last_played, str):
+            last_played = ""
+
         cleaned_games.append({
             "name": name.strip(),
             "path": path.strip(),
-            "description": description.strip()
+            "description": description.strip(),
+            "favorite": favorite,
+            "last_played": last_played.strip()
         })
 
     return save_json_file(GAMES_FILE, cleaned_games)

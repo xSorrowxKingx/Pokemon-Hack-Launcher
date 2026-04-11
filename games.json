@@ -1,0 +1,23 @@
+[
+    {
+        "name": "Pokemon Infinite Fusion",
+        "path": "E:\\Games\\InfiniteFusion\\InfiniteFusion.exe",
+        "description": "A fan game that allows players to fuse any two Pokémon together, creating thousands of unique combinations with custom sprites and mechanics.",
+        "favorite": true,
+        "last_played": "11.04.2026 14:54"
+    },
+    {
+        "name": "Pokemon Prisme",
+        "path": "E:\\Games\\Pokemon Prisme\\Pokemon Prisme.exe",
+        "description": "A classic-style Pokémon ROM hack featuring a brand new region, original story, new mechanics, and many custom features built on the Pokémon Crystal engine.",
+        "favorite": true,
+        "last_played": ""
+    },
+    {
+        "name": "PokéPath TD",
+        "path": "C:\\Users\\Flori\\AppData\\Local\\Programs\\pokePathTD_Electron\\PokéPath TD.exe",
+        "description": "A Pokémon-themed tower defense game where players strategically place Pokémon to defend paths against waves of incoming enemies.",
+        "favorite": false,
+        "last_played": "2026-04-11 14:44"
+    }
+]
