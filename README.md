@@ -31,7 +31,7 @@ https://github.com/Barath0n/Pokemon-Hack-Launcher/releases/latest
 # Screenshots
 
 ### Main Launcher
-![Launcher Screenshot](screenshots/launcher_main.png)
+![Launcher Screenshot](assets/screenshots/launcher_main.png)
 
 The main launcher shows your ROM hack library with icons, descriptions, and quick launch buttons.
 
@@ -45,7 +45,7 @@ You can:
 ---
 
 ### Manage Games
-![Manage Games Screenshot](screenshots/manage_games.png)
+![Manage Games Screenshot](assets/screenshots/manage_games.png)
 
 The **Manage Games** window allows you to:
 
@@ -60,7 +60,7 @@ All changes are automatically saved to your local library.
 ---
 
 ### Options – Themes
-![Themes Screenshot](screenshots/options_themes.png)
+![Themes Screenshot](assets/screenshots/options_themes.png)
 
 Customize the launcher appearance with multiple Pokémon-inspired themes.
 
@@ -81,7 +81,7 @@ Themes can be previewed instantly before applying them.
 ---
 
 ### Options – Language
-![Language Screenshot](screenshots/options_language.png)
+![Language Screenshot](assets/screenshots/options_language.png)
 
 The launcher supports multiple languages.
 
